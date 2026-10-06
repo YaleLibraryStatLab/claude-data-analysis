@@ -615,7 +615,7 @@ In groups, working in `scripts/we-do/<group-name>/`:
 3. Approve or revise `plan.md`. Only then may it fit.
 4. Run the script in a clean session. Read `report.md`: what was actually done?
 5. On the `\href{https://docs.google.com/forms/d/e/1FAIpQLScpRD4wGICMHQc3iSEGctNVKpILy86nHx_bOf40rMoUxTL_dQ/viewform}{\textcolor{statsecondary}{\underline{class form}}}`{=latex}, enter your group name and paste the contents of `submission.txt`.
-6. Complete the validation worksheet before looking at other groups' results.
+6. Do Part A of the validation worksheet: check your own code and result. Part B waits for the comparison.
 :::
 ::: {.column width="26%"}
 ![](assets/we-do-form-qr.png){width=100%}
@@ -659,7 +659,7 @@ with(d, mean(salary[sex == "Male"]) - mean(salary[sex == "Female"]))
 ## We Do: compare across groups
 
 ```text
-Rscript --vanilla scripts/we-do/compare-group-results.R responses.csv
+Follow instructor_files/compare-we-do-results.md
 ```
 
 - Which groups answered the same question? Do their estimates agree?
@@ -777,7 +777,7 @@ If the fifth answer is no, narrow the task, learn the method, or seek expertise.
 
 Delegation is safest where the output is cheap to inspect and the consequence of error is understood.
 
-## The durable lesson
+## TL;DR
 
 ```{=latex}
 \vspace{0.7em}

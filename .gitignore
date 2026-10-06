@@ -14,3 +14,8 @@ workshop/*.snm
 workshop/*.toc
 workshop/*.vrb
 workshop/*_files/
+
+# Facilitator files: participant responses and generated comparison output
+instructor_files/responses/*
+!instructor_files/responses/.gitkeep
+instructor_files/we-do-comparison.*

@@ -80,12 +80,8 @@ matching folder in `scripts/`. For We Do, each group works in
 
 Each group picks a group name. Its analysis script also writes a
 `submission.txt` file; on the class form the group enters its name and pastes
-that file's contents. The facilitator downloads the form responses
-as a CSV and compares every group's results from the project root:
-
-```sh
-Rscript --vanilla scripts/we-do/compare-group-results.R path/to/responses.csv
-```
+that file's contents. The facilitator then combines every group's results
+into one table; the steps are in `instructor_files/`.
 
 ## Rebuilding the slides
 

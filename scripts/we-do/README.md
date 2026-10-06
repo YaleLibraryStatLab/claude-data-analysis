@@ -9,13 +9,12 @@ Each group picks a group name and uses it for its folder. Its `analysis.R` also
 writes `submission.txt`, one `|`-separated line per model, which records the
 uncertainty method used and whether the group or Claude chose it. On the class form the
 group enters its name and pastes that file's contents. The facilitator downloads
-the form responses as CSV and runs
-`Rscript --vanilla scripts/we-do/compare-group-results.R path/to/responses.csv`.
-The script groups matching specifications, keeps a group's latest resubmission,
-flags rows whose sample size or interval cannot be compared, and writes
-`group-comparison.csv` for the debrief. With no argument it reads
-`form-responses.csv` in this folder if present, and otherwise the
-`<group-name>/results.csv` folders.
+the form responses, puts the file in `instructor_files/responses/`, and tells
+Claude to follow `instructor_files/compare-we-do-results.md` (or runs
+`Rscript --vanilla scripts/we-do/compare-group-results.R` directly). The script
+groups matching specifications, keeps a group's latest resubmission, flags rows
+whose sample size or interval cannot be compared, and writes
+`instructor_files/we-do-comparison.html` to show the room, plus a `.csv` copy.
 
 `salaries-reference-analysis.R` is the facilitator-validated reference shown in
 the deck. It fits the specifications groups can choose, reports conventional,

@@ -3,6 +3,12 @@
 Use the real salary data, your group's completed brief, and the saved R script.
 The aim is to verify the handoff, not to diagnose a planted error.
 
+The worksheet has two parts. Do Part A on your own as soon as your analysis has
+run. Part B waits until the facilitator has collected every group's submission
+and shown the comparison table.
+
+# Part A: your own analysis (before the comparison)
+
 ## Stakeholder question and target
 
 **Chosen stakeholder question:**
@@ -56,9 +62,11 @@ Choose one for the computational handoff: **Approve / Revise / Stop / Escalate**
 
 Give the reason and name any evidence or expertise still required.
 
+# Part B: after the facilitator shows every group's results
+
 ## Comparison across groups
 
-After the facilitator shows every group's results:
+Use the comparison table on the screen:
 
 | Question | Your answer |
 |---|---|
