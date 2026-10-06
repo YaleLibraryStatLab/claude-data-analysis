@@ -1,0 +1,817 @@
+---
+title: "Statistical Analysis with Coding Agents"
+subtitle: "Directing, inspecting, and learning from agent-assisted work in R"
+author:
+  - "Ted Ellsworth, PhD"
+date: today
+format:
+  beamer:
+    theme: default
+    aspectratio: 169
+    slide-level: 2
+    pdf-engine: xelatex
+    include-in-header: assets/beamer-header.tex
+    keep-tex: false
+---
+
+## The argument of this workshop
+
+```{=latex}
+\vspace{0.8em}
+{\LARGE\bfseries Coding agents are often effective at translating well-specified statistical decisions into runnable R code.\par}
+
+\vspace{1.0em}
+{\Large They are much less reliable when they must decide what should be estimated, which assumptions are defensible, or what the result means.\par}
+
+\vspace{1.0em}
+{\large Effective use therefore depends on statistical expertise, explicit direction, and verification.\par}
+```
+
+## What you will learn
+
+By the end of the workshop, you should be able to:
+
+1. Explain what a coding agent does when it analyzes data with R.
+2. Write an analysis brief that fixes the goal, target, task, and outputs.
+3. Trace a claim back through its sample, estimator, code, and evidence.
+4. Recognize a consequential choice that the agent supplied.
+5. Decide when to proceed, revise, stop, or seek statistical expertise.
+
+```{=latex}
+\vspace{0.7em}
+{\color{statsecondary}\rule{\linewidth}{1.2pt}}
+
+The objective is not to avoid learning R or statistics. It is to use an agent without surrendering the decisions that make an analysis meaningful.
+```
+
+## What research evaluates
+
+"Can an LLM do statistics?" combines several different tasks.
+
+| Task | What success means |
+|:--|:--|
+| Select a named test | Map a well-described design to a known procedure |
+| Write statistical code | Produce executable syntax that implements a specification |
+| Reproduce an analysis | Recover a known result from supplied materials |
+| Design an analysis | Choose a target, sample, model, and diagnostics |
+| Interpret evidence | Connect estimates and assumptions to a bounded claim |
+| Complete a workflow | Coordinate files, tools, debugging, validation, and reporting |
+
+Performance on the first three does not establish reliability on the last three.
+
+## Bounded tasks can go very well
+
+Sebo and Wang tested GPT-5, Claude, and DeepSeek on 32 statistical examples with standardized prompts.
+
+| Evaluation | Result |
+|:--|:--|
+| Identify the statistical test | 32/32 for every model in both rounds |
+| Generate the Stata command | 87.5--96.9% no/low-risk deviations |
+| Repeat the command across rounds | 93.8--100% reproducibility |
+
+The benchmark supplied canonical problems, a reference answer, a fixed prompt, and a narrow output.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Sebo \& Wang (2026). The study intentionally excluded assumption checking and result interpretation.\par}
+```
+
+## Statistical code is useful—and uneven
+
+Song and colleagues asked GPT-3.5, GPT-4, and Llama 3.1 to write SAS code for 207 human-verified statistical tasks.
+
+- Models often produced syntactically correct and readable code.
+- Performance weakened on tasks requiring deeper domain understanding.
+- Executable-looking programs could still contain redundant analyses or incorrect results.
+- Non-expert users were least equipped to recognize those errors.
+
+```{=latex}
+\vspace{0.6em}
+{\large\bfseries Code generation is a real capability. Statistical validity is a separate outcome.\par}
+
+{\scriptsize\color{statprimary!65}Song et al. (2025). Evaluation by statistics faculty and PhD researchers.\par}
+```
+
+## Frontier coding agents can reproduce known work
+
+Alizadeh and colleagues tested Claude Opus 4.6 in Claude Code and GPT-5.3-Codex on 221 social-science reproduction tasks.
+
+| Agent | Task-level accuracy | Entire-paper accuracy |
+|:--|--:|--:|
+| Claude Code | 93.4% | 78.0% |
+| Codex | 62.1% | 35.8% |
+
+These tasks began with complete, executable replication materials and a known result. Claude also repaired paths and dependencies successfully.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Alizadeh et al. (2026), SocSci-Repro-Bench; three runs per paper.\par}
+```
+
+## Open-ended statistical analysis remains difficult
+
+StatABench evaluates both closed questions and open-ended modeling with tools.
+
+| Benchmark | Best reported performance |
+|:--|:--|
+| 404 closed statistical questions | GPT-5.1: 68.6% |
+| 30 open-ended modeling problems | Top agent framework: 61.86 / 100 |
+
+The persistent failures involved tool-grounded reasoning, methodological decisions, and end-to-end modeling—not merely R or Python syntax.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Zhu et al. (2026). Closed questions span 18 topics; open tasks come from modeling competitions.\par}
+```
+
+## Full workflows add another failure layer
+
+DSAgentBench asks agents to complete 275 multi-stage data-science tasks in real computer environments.
+
+```{=latex}
+\vspace{0.6em}
+\begin{center}
+{\fontsize{32}{36}\selectfont\bfseries 56.7\%}
+
+{\large task success for the strongest tested agent, Claude 4.6 Sonnet}
+\end{center}
+\vspace{0.4em}
+```
+
+The difficult parts included grounding in intermediate results, coordinating tools, navigating the operating system, and maintaining a correct multi-step plan.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Rahman et al. (2026). Correctness was execution-tested, not judged from code appearance alone.\par}
+```
+
+## A plausible report can conceal analytic selection
+
+Miao and colleagues held the data and question fixed while varying an agent's stated prior belief.
+
+- Persona prompts produced divergent—and sometimes opposing—conclusions.
+- Agents reproduced 72% of the ideological gap seen among 42 human teams.
+- 86% of agent reports passed independent AI review.
+- 78% passed review by a majority of human experts.
+
+The problem was often selective exploration among defensible paths, not an obviously broken final model.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Miao, Pritchard, \& Zou (2026), using Claude Code with Sonnet 4.6.\par}
+```
+
+## What we know about doing statistics with agents
+
+| Strongest evidence | Remaining uncertainty |
+|:--|:--|
+| A clear specification can be translated into working code. | Did we specify the right quantity and population? |
+| Saved scripts can make a result computationally reproducible. | Does the script implement a defensible analysis? |
+| Agents can repair many ordinary execution failures. | Did a repair change the sample, method, or meaning? |
+| Agents can propose multiple plausible models quickly. | Why was this path selected and others omitted? |
+| Agents can write fluent interpretations. | Does every clause stay within the design and assumptions? |
+
+```{=latex}
+\vspace{0.5em}
+{\large\bfseries Good instruction improves execution. It does not remove uncertainty about the statistical decisions.\par}
+```
+
+## The practical capability boundary
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={align=center,font=\small}]
+  \draw[statprimary!35,line width=9pt] (0.4,1.2) -- (12.8,1.2);
+  \draw[highlightgreen,line width=9pt] (0.4,1.2) -- (4.1,1.2);
+  \draw[warnorange,line width=9pt] (4.1,1.2) -- (8.4,1.2);
+  \draw[errorred,line width=9pt] (8.4,1.2) -- (12.8,1.2);
+  \node[anchor=north] at (2.2,0.75) {execute a fixed\\statistical plan};
+  \node[anchor=north] at (6.25,0.75) {propose and compare\\analysis choices};
+  \node[anchor=north] at (10.6,0.75) {define the target and\\warrant the claim};
+  \node[anchor=south,font=\bfseries\small] at (2.2,1.65) {delegate + inspect};
+  \node[anchor=south,font=\bfseries\small] at (6.25,1.65) {approve only if evaluable};
+  \node[anchor=south,font=\bfseries\small] at (10.6,1.65) {researcher owns};
+\end{tikzpicture}
+\end{center}
+```
+
+Delegation should stop at the edge of your ability to evaluate the consequence of a choice.
+
+## Claude Code is not just a chat window
+
+A coding agent can inspect a project, edit files, run R, observe errors, and revise its work.
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[node distance=1.15cm and 1.35cm,every node/.style={font=\small,align=center},
+  flowstep/.style={draw=statprimary!45,rounded corners=2pt,minimum width=2.2cm,minimum height=0.75cm,fill=white},
+  arr/.style={-{Latex[length=2mm]},thick,color=statsecondary}]
+  \node[flowstep] (read) {read prompt\\and files};
+  \node[flowstep,right=of read] (plan) {choose a\\next action};
+  \node[flowstep,right=of plan] (tool) {edit or\\run a tool};
+  \node[flowstep,right=of tool] (observe) {observe\\the result};
+  \draw[arr] (read) -- (plan);
+  \draw[arr] (plan) -- (tool);
+  \draw[arr] (tool) -- (observe);
+  \draw[arr] (observe.south) to[bend left=25] node[below,font=\scriptsize]{repeat until done or stopped} (plan.south);
+\end{tikzpicture}
+\end{center}
+```
+
+That loop is useful because code is executable and inspectable. It is risky because the agent can compound an early statistical assumption across many files.
+
+## Give the analysis a project structure
+
+```text
+claude-data-analysis/
+├── data/          # original inputs; read-only
+├── exercises/     # briefs and participant instructions
+├── scripts/       # approved R code and run outputs
+└── workshop/      # slides and assets
+```
+
+Ask the agent to use relative paths and to write new artifacts only under the designated output folder.
+
+```r
+d <- read.csv("data/salaries/salaries.csv")
+write.csv(results, "scripts/we-do/model-results.csv", row.names = FALSE)
+```
+
+Project structure is a technical control: it makes inputs, actions, and outputs easier to inspect.
+
+## A context window fills during the analysis
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+  \node[anchor=east,font=\small\bfseries] at (1.7,2.7) {Start};
+  \fill[statyale] (2.0,2.38) rectangle (4.7,3.02);
+  \draw[statprimary!50,rounded corners=2pt] (2.0,2.38) rectangle (13.0,3.02);
+  \node[text=white,align=center] at (3.35,2.7) {instructions +\\project rules};
+  \node[text=statprimary!55] at (8.85,2.7) {available working context};
+
+  \node[anchor=east,font=\small\bfseries] at (1.7,1.45) {Later};
+  \fill[statyale] (2.0,1.13) rectangle (4.7,1.77);
+  \fill[statsecondary] (4.7,1.13) rectangle (8.0,1.77);
+  \fill[warnorange] (8.0,1.13) rectangle (11.2,1.77);
+  \draw[statprimary!50,rounded corners=2pt] (2.0,1.13) rectangle (13.0,1.77);
+  \node[text=white,align=center] at (3.35,1.45) {instructions +\\project rules};
+  \node[text=white,align=center] at (6.35,1.45) {conversation +\\decisions};
+  \node[text=white,align=center] at (9.6,1.45) {file contents +\\tool output};
+  \node[text=statprimary!55] at (12.1,1.45) {remaining};
+
+  \node[anchor=west,text=statprimary!70] at (2.0,0.45) {More context is not the same as better evidence.};
+\end{tikzpicture}
+\end{center}
+```
+
+The model works from a finite record of instructions, conversation, file content, and recent tool output.
+
+## Compaction preserves a summary, not the full history
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+  \node[anchor=east,font=\small\bfseries] at (1.6,2.75) {Before};
+  \fill[statyale] (1.9,2.42) rectangle (4.5,3.08);
+  \fill[statsecondary] (4.5,2.42) rectangle (8.0,3.08);
+  \fill[warnorange] (8.0,2.42) rectangle (12.8,3.08);
+  \draw[statprimary!50,rounded corners=2pt] (1.9,2.42) rectangle (12.8,3.08);
+  \node[text=white] at (3.2,2.75) {instructions};
+  \node[text=white] at (6.25,2.75) {decisions};
+  \node[text=white] at (10.4,2.75) {files + outputs};
+
+  \draw[-{Latex[length=2.5mm]},thick,statsecondary] (7.35,2.18) -- (7.35,1.62);
+  \node[anchor=west,text=statsecondary] at (7.55,1.9) {compact};
+
+  \node[anchor=east,font=\small\bfseries] at (1.6,1.25) {After};
+  \fill[statyale] (1.9,0.92) rectangle (4.5,1.58);
+  \fill[statsecondary!75] (4.5,0.92) rectangle (7.15,1.58);
+  \draw[statprimary!50,rounded corners=2pt] (1.9,0.92) rectangle (12.8,1.58);
+  \node[text=white] at (3.2,1.25) {instructions};
+  \node[text=white,align=center] at (5.82,1.25) {compressed\\history};
+  \node[text=statprimary!55] at (9.95,1.25) {new working context};
+\end{tikzpicture}
+\end{center}
+```
+
+Put consequential decisions in durable files—an approved brief, plan, script, result table, and decision log—then tell the agent to reopen them after compaction.
+
+## Skills and subagents are workflow aids
+
+| Mechanism | Useful for | Does not establish |
+|:--|:--|:--|
+| Project instructions | Persistent local rules and file conventions | That the rules are statistically sound |
+| Skill | A reusable procedure, checklist, or output format | That the procedure fits this scientific question |
+| Subagent | A bounded second pass, code review, or alternative proposal | Independent evidence or independent judgment |
+
+Use these mechanisms when repetition or context management is the problem.
+
+Do not use them to manufacture consensus about a choice you cannot evaluate.
+
+## A prompt should function as an analysis brief
+
+The useful unit is not a clever sentence. It is a prospective record of the intended analysis.
+
+| Part | What it fixes before results are seen |
+|:----|:-----------|
+| Goal | Motivation, question, hypothesis, target quantity |
+| Data | Unit, population, provenance, coding, time, access boundary |
+| Task | Estimator, sample, assumptions, diagnostics, alternatives |
+| Output | Files, tables, figures, precision, run record |
+| Decision rights | What the agent may execute, propose, or change only after approval |
+| Stop conditions | Evidence that pauses, reopens, or ends the analysis |
+
+Good prompting is statistical specification plus project management.
+
+## Goal: name the quantity before the method
+
+Compare these requests:
+
+> **(1)** Does college increase political participation?
+
+> **(2)** Estimate the average difference in the 0--8 participation index that would be expected if everyone in this panel attended college versus if no one attended, under stated identification assumptions.
+
+. . .
+
+Request (2) names a target quantity. It still requires decisions about population, timing, identification, and estimation.
+
+. . .
+
+Include the motivation and directional hypothesis—but state that the expected result must not guide specification search.
+
+## Data: tell the agent what one row means
+
+A usable data section identifies:
+
+- exact files and provenance;
+- unit of observation and target population;
+- treatment, outcome, covariates, identifiers, and time ordering;
+- missing-value encodings and categorical-variable coding;
+- read-only inputs and permitted output directory;
+- known uncertainties the audit must resolve.
+
+File names and variable labels are claims, not evidence. Ask the agent to compare documentation with the values in the data.
+
+## Task: specify the estimator and its checks
+
+An estimator is a rule that maps data to an estimate—not merely a model name.
+
+```text
+Fit yppnscal ~ college + approved 1965 covariates.
+Predict every respondent's outcome with college = 1 and college = 0;
+report the average of the differences with an HC2 95% interval.
+Use all rows unless the audit finds a data defect.
+Before fitting, report the sample size and treatment support.
+Recompute the average 1-versus-0 contrast directly as a check.
+```
+
+If the method is unfamiliar, ask the agent to propose options and stop. Approval still requires knowledge or expert help.
+
+## Output: make the work inspectable
+
+Request named artifacts instead of one polished response.
+
+| File | Purpose |
+|:----|:-----------|
+| `audit.md` | Data structure, coding, missingness, contradictions |
+| `plan.md` | Frozen target, sample, estimator, diagnostics, stop rules |
+| `analysis.R` | Executable implementation of the approved plan |
+| `results.csv` | Machine-readable estimates, uncertainty, and sample size |
+| `report.md` | Bounded interpretation linked to the result table |
+| `decision-log.md` | Changes, approvals, reasons, and unresolved questions |
+
+Ask the agent to run `Rscript --vanilla analysis.R` and save the console output. A clean run is evidence of execution, not proof of validity.
+
+## Decision rights create checkpoints
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[node distance=0.7cm and 0.45cm,every node/.style={font=\small,align=center},
+  flowstep/.style={draw=statprimary!45,rounded corners=2pt,minimum width=1.95cm,minimum height=0.72cm,fill=white},
+  human/.style={draw=statorange,rounded corners=2pt,minimum width=2.1cm,minimum height=0.72cm,fill=statorangebg},
+  arr/.style={-{Latex[length=2mm]},thick,color=statsecondary}]
+  \node[flowstep] (audit) {agent audits\\then stops};
+  \node[human,right=of audit] (approve1) {human resolves\\data decisions};
+  \node[flowstep,right=of approve1] (plan) {agent plans\\then stops};
+  \node[human,right=of plan] (approve2) {human approves\\target + method};
+  \node[flowstep,right=of approve2] (run) {agent executes\\and verifies};
+  \draw[arr] (audit)--(approve1);
+  \draw[arr] (approve1)--(plan);
+  \draw[arr] (plan)--(approve2);
+  \draw[arr] (approve2)--(run);
+\end{tikzpicture}
+\end{center}
+```
+
+Stop when evidence contradicts the plan, when changing the analysis would change the target, or when the required choice exceeds the researcher's expertise.
+
+## A complete compact prompt
+
+```{=latex}
+\begin{minipage}{0.96\linewidth}
+\ttfamily\scriptsize
+Goal: Estimate the average effect of attending college on the 0--8 participation\\
+index among respondents represented by the panel. If the files cannot establish\\
+that college preceded the outcome, stop and propose a descriptive target.\\
+Our hypothesis is positive, but do not search for it.\\[0.65em]
+Data: Read data/kam-palmer/political\_socialisation\_data.csv and its codebook.\\
+One row is one respondent. Treat inputs as read-only; write only under scripts/i-do/.\\[0.65em]
+Task: First audit time ordering, coding, missingness, and derived variables.\\
+Do not fit. Write audit.md and stop. After approval, propose an estimator and\\
+checks in plan.md.\\[0.65em]
+Output: After plan approval, write analysis.R, results.csv, report.md, and a run log.\\[0.65em]
+Decision rights: I retain the target, adjustment set, sample, uncertainty\\
+procedure, and interpretation.\\[0.65em]
+Stop: Pause for contradictions, changed targets, unsupported causal language,\\
+or a method I cannot evaluate.
+\end{minipage}
+```
+
+## I Do: the whole analysis, with decisions visible
+
+**Question:** Does attending college increase later political participation?
+
+**Data:** 1,254 respondents in the 1965--1973 Political Socialization Panel Study.
+
+**Treatment:** attended college by 1973.
+
+**Outcome:** number of political acts reported in 1973, from 0 to 8.
+
+**Initial target:** the average causal effect for respondents represented by the panel.
+
+The agent receives the brief, data, and codebook. Its first job is to audit and stop—not estimate.
+
+## I Do: why the audit comes first
+
+The audit asks questions that can change the analysis before a model is fit:
+
+- Are treatment and outcome ordered in time?
+- Which variables are genuinely pre-treatment?
+- Are variables duplicated or deterministic recodes?
+- Does the documentation agree with the values?
+- Do the data support the requested population and target?
+
+The treatment and outcome were both recorded in the 1973 follow-up. The files do not establish that college attendance preceded every reported act.
+
+That finding weakens the causal interpretation before any coefficient exists.
+
+## I Do: a polished label was not a valid check
+
+The data contain `p1965_HHCollegePlacebo`, described as a placebo variable.
+
+Direct inspection showed:
+
+```r
+with(d, all(p1965_HHCollegePlacebo == (p1965_EducHH >= 5)))
+# TRUE for all 1,247 non-missing rows
+```
+
+It is a deterministic recode of household education—one of the adjustment variables—not an independent placebo outcome.
+
+## I Do: the human redefines what can be claimed
+
+The audit does not support the requested causal target from the supplied information.
+
+The approved fallback is narrower:
+
+> Estimate the standardized adjusted difference in the participation index between college attendees and non-attendees in this analysis sample.
+
+The agent may implement the model. The researcher owns:
+
+- the change from a causal effect to an adjusted association;
+- the adjustment logic and target population;
+- the uncertainty procedure;
+- the language used in the report.
+
+Reframing is not failure. It is a statistical result of the audit.
+
+## I Do: execution follows the approved plan
+
+With no college interactions, the coefficient equals the average fitted
+1-versus-0 prediction contrast.
+
+```r
+formula <- reformulate(
+  c("college", approved_covariates), response = "yppnscal"
+)
+fit <- lm(formula, data = d)
+V <- sandwich::vcovHC(fit, type = "HC2")
+estimate <- coef(fit)["college"]
+interval <- lmtest::coefci(fit, vcov. = V, parm = "college")
+out <- data.frame(estimate, lower = interval[1], upper = interval[2])
+write.csv(out, "scripts/i-do/results.csv", row.names = FALSE)
+```
+
+## I Do: the handoff
+
+> In this analysis sample of `\textcolor{statorange}{[n]}`{=latex} respondents, college attendees reported `\textcolor{statorange}{[estimate]}`{=latex} more political acts on the 0--8 index than non-attendees, after standardizing over the approved 1965 covariates (HC2 95% interval `\textcolor{statorange}{[lower, upper]}`{=latex}). College attendance and participation were both recorded in 1973, so these data do not establish that college preceded the reported acts. The estimate is an adjusted association, not a causal effect.
+
+## I Do: the same brief across 21 agent runs
+
+In a local prompt-ablation study (seven brief conditions, three runs each):
+
+- 20 of 21 runs ran the placebo analysis; one identified the recode.
+- All 15 runs that saved a script reproduced their reported coefficient to $10^{-6}$.
+
+| Run with design instruction removed | Estimate | Agent's declared target |
+|:------|---:|:-------|
+| 1 | 0.722 | ATT: average among attendees |
+| 2 | 0.727 | ATE: average in the target population |
+| 3 | 0.722 | No estimand stated |
+
+Three nearly identical numbers did not represent the same stated quantity.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Local prompt-ablation study, Claude Opus 5, August 2026; seven conditions, three runs per condition.\par}
+```
+
+## I Do: what the agent did and what the analyst did
+
+| Agent contribution | Analyst responsibility |
+|:--|:--|
+| Inspected 1,254 rows and many variables quickly | Decided which discrepancies were scientifically consequential |
+| Wrote and ran R code | Approved the formula, sample, and uncertainty method |
+| Produced diagnostics and alternatives | Determined what each check could and could not establish |
+| Saved reproducible outputs | Reframed the target when timing did not support causality |
+| Drafted a report | Restricted the claim to an adjusted association |
+
+The junior ballgame is the entire analysis cycle with a smaller, inspectable decision space.
+
+## We Do: what does “salary difference” mean?
+
+The data contain 397 faculty members at one US college in 2008--09.
+
+| Variable | Meaning |
+|:--|:--|
+| `salary` | Nine-month salary in dollars |
+| `sex` | Female or Male |
+| `rank` | Assistant, Associate, or Full Professor |
+| `discipline` | Theoretical or applied field |
+| `yrs.service` | Years at the institution |
+| `yrs.since.phd` | Years since the PhD |
+
+**Question for the room:** A prompt says "Describe the adjusted Male--Female salary difference." Which decisions are still unresolved?
+
+## We Do: decisions the prompt leaves open
+
+1. Adjust for discipline?
+2. Adjust for experience—years of service, years since PhD, or both?
+3. Adjust for academic rank?
+4. Which interval, given 39 women and 358 men?
+5. Describe the observed faculty or generalize beyond this college?
+
+The data support descriptions of the overall disparity or of comparisons among faculty with similar observed roles. They do not identify a causal effect of sex.
+
+There is no universally correct adjustment set. Each choice changes the question the coefficient answers.
+
+## We Do: adjustment changes the target
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\small,align=center}]
+  \node[draw=statprimary!45,rounded corners=2pt,minimum width=2.0cm,minimum height=0.7cm] (sex) at (1.4,1.6) {sex};
+  \node[draw=statprimary!45,rounded corners=2pt,minimum width=2.0cm,minimum height=0.7cm] (rank) at (5.3,2.35) {rank};
+  \node[draw=statprimary!45,rounded corners=2pt,minimum width=2.0cm,minimum height=0.7cm] (sal) at (9.3,1.6) {salary};
+  \node[draw=statprimary!45,rounded corners=2pt,minimum width=2.0cm,minimum height=0.7cm] (serv) at (5.3,0.75) {years of service};
+  \draw[-{Latex[length=2mm]},thick,statsecondary] (sex)--(rank);
+  \draw[-{Latex[length=2mm]},thick,statsecondary] (rank)--(sal);
+  \draw[-{Latex[length=2mm]},thick,statsecondary] (sex)--(serv);
+  \draw[-{Latex[length=2mm]},thick,statsecondary] (serv)--(sal);
+  \draw[-{Latex[length=2mm]},thick,statsecondary] (sex)--(sal);
+\end{tikzpicture}
+\end{center}
+```
+
+If rank partly reflects an institutional process of interest, adjusting for it removes that pathway from the coefficient. If the question is pay differences within rank, omitting it compares different roles.
+
+The model cannot decide which institutional question matters.
+
+## We Do: what the brief fixes for every group
+
+Each group starts from `exercises/we-do-salaries-analysis-brief.md`. These parts are given, so results can be compared at the end:
+
+- **Data:** `data/salaries/salaries.csv`, read-only; all 397 rows, no missing values.
+- **Contrast:** Male minus Female, Female as reference; salary in dollars, untransformed.
+- **Estimator:** linear model with no interactions; report the `sexMale` coefficient.
+- **Claim boundary:** this college in 2008--09; descriptive, not causal.
+- **Workflow:** the agent audits and stops; it fits only after the group approves the plan.
+- **Output:** `results.csv` with the same columns for every group, and a `submission.txt` line to paste into the class form.
+
+## We Do: what your group decides
+
+| Decision | Options |
+|:----|:-----------|
+| Comparison | Overall disparity, similar job context, or same rank and job context |
+| Adjustment set | Discipline? Years of service, years since PhD, both, or neither? Rank? |
+| Sensitivity model | None, or one alternative formula and the different question it answers |
+| Uncertainty | Open: name a method, ask Claude for options and pick one, or write "Claude decides" |
+
+Write the target in one sentence in `brief.md` before the agent fits anything. Whoever chooses the uncertainty method, `report.md` must state what was done and who chose it.
+
+## We Do: run it with the agent
+
+:::: {.columns}
+::: {.column width="72%"}
+In groups, working in `scripts/we-do/<group-name>/`:
+
+1. Pick a group name. Copy the brief and complete the decision sections.
+2. Give Claude the brief. It audits and stops; read `audit.md`.
+3. Approve or revise `plan.md`. Only then may it fit.
+4. Run the script in a clean session. Read `report.md`: what was actually done?
+5. On the `\href{https://docs.google.com/forms/d/e/1FAIpQLScpRD4wGICMHQc3iSEGctNVKpILy86nHx_bOf40rMoUxTL_dQ/viewform}{\textcolor{statsecondary}{\underline{class form}}}`{=latex}, enter your group name and paste the contents of `submission.txt`.
+6. Complete the validation worksheet before looking at other groups' results.
+:::
+::: {.column width="26%"}
+![](assets/we-do-form-qr.png){width=100%}
+
+```{=latex}
+{\centering\scriptsize\color{statprimary!65}Class form\par}
+```
+:::
+::::
+
+## We Do: inspect your group's R
+
+Read `analysis.R` without asking Claude first:
+
+- What is the contrast and its direction?
+- Which variables define the comparison? Do they match your brief?
+- Which formula is primary, and which is sensitivity?
+- Which rows enter each model?
+- Which line computes the interval? Does it match what `report.md` says was done?
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Syntax key: in \texttt{factor(x, levels = c("Female", "Male"))} the first level is the reference; \texttt{nobs(fit)} reports how many rows entered the model.\par}
+```
+
+## We Do: verify before interpreting
+
+Check the shortest chain that could falsify the handoff:
+
+1. **Data:** 397 rows, no missing values, 39 women and 358 men.
+2. **Formula:** the formulas in the code match the brief.
+3. **Reference:** `sexMale` means Male minus Female.
+4. **Execution:** run the saved script in a clean R session.
+5. **Independent check:** raw means reproduce the sign and \$14,088 difference.
+6. **Claim:** describes one college and year; does not assert causality.
+
+```r
+with(d, mean(salary[sex == "Male"]) - mean(salary[sex == "Female"]))
+# 14088.01
+```
+
+## We Do: compare across groups
+
+```text
+Rscript --vanilla scripts/we-do/compare-group-results.R responses.csv
+```
+
+- Which groups answered the same question? Do their estimates agree?
+- Where estimates differ, is the cause the target (formula) or the implementation (rows, reference level, interval)?
+- Who chose each uncertainty method? Did groups that left it to Claude get the same one, and can they explain it?
+- Did the method change which groups would call the difference clearly positive?
+- Does each group's claim language match its formula?
+
+## We Do: the decision space
+
+Facilitator-validated calculations, Male minus Female, all 397 rows:
+
+```{=latex}
+\small
+```
+
+| `salary ~ sex` + | Estimate | Conventional 95% | HC2 95% |
+|:-------------|----:|------:|------:|
+| (nothing) | \$14,088 | 4,131 to 24,045 | 5,327 to 22,849 |
+| discipline | \$14,029 | 4,183 to 23,875 | 5,756 to 22,303 |
+| yrs.service | \$9,072 | `$-$`{=latex}486 to 18,630 | 1,122 to 17,021 |
+| discipline + yrs.service | \$8,423 | `$-$`{=latex}905 to 17,751 | 1,235 to 15,612 |
+| discipline + yrs.since.phd | \$6,956 | `$-$`{=latex}1,909 to 15,821 | 779 to 13,134 |
+| rank | \$4,943 | `$-$`{=latex}2,972 to 12,858 | `$-$`{=latex}737 to 10,623 |
+| rank + discipline + yrs.service | \$4,771 | `$-$`{=latex}2,853 to 12,396 | `$-$`{=latex}88 to 9,631 |
+
+These are not seven attempts to discover the "true" coefficient. They answer different descriptive questions.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}Full grid: \texttt{scripts/we-do/salaries-reference-results.csv}. Intervals assume a repeated-process or superpopulation interpretation this single-college file does not establish.\par}
+```
+
+## We Do: a defensible handoff
+
+For a group that chose discipline and years of service, and chose HC2 intervals itself:
+
+> In these 397 faculty records, men's mean nine-month salary was \$14,088 higher than women's. Among faculty with the same discipline and years of service, the estimated difference was about \$8,423 (HC2 95% interval \$1,235 to \$15,612). A model that also conditioned on rank estimated about \$4,771, but that coefficient answers a different within-rank question. These observational data from one college and year do not identify a causal effect of sex.
+
+The handoff reports the planned primary result and labels the alternative rather than choosing whichever result is most convenient.
+
+## They Do: analyze ozone with a coding agent
+
+On your own after the workshop: use this case to test how well you can run each step without scaffolding.
+
+The data contain 153 consecutive days in New York, May--September 1973.
+
+**Target:** the adjusted difference in mean afternoon ozone between 85°F and 75°F, standardized over observed wind, solar radiation, and month in the approved sample.
+
+**Boundary:** a descriptive adjusted association, not a causal effect.
+
+**Known facts:** ozone is missing on 37 days, solar radiation on 7, and nearby days may be dependent.
+
+Your job is to direct a bounded analysis and decide what the result can support.
+
+## They Do: write before you run
+
+Write a six-part brief in `scripts/they-do/<your-id>/brief.md`:
+
+1. Goal and target contrast.
+2. Data, unit, time order, and read-only boundary.
+3. Primary estimator and exact analysis sample.
+4. Required output files and one independent check.
+5. Decisions the agent may not change without approval.
+6. Evidence that triggers revise, stop, or escalation.
+
+Ask the agent to audit first and stop. Approve or revise its sample and model plan before it fits anything.
+
+## They Do: questions to address or escalate
+
+- **Coding:** Should month be categorical or numeric?
+- **Support and sample:** Is the 85-versus-75 contrast supported within months,
+  and what population does complete-case analysis describe?
+- **Model:** Does the temperature relationship need a nonlinear term?
+- **Uncertainty:** How should ordered daily observations affect the interval?
+- **Verification:** Which check could reveal an implementation error?
+
+Use Claude to inspect, calculate, and propose. Resolve what you can evaluate;
+record an escalation for consequential choices that exceed your expertise.
+
+## They Do: required handoff
+
+Save four core artifacts:
+
+- `brief.md`: your six-part prompt;
+- `audit.md`: the agent's evidence about the data;
+- `analysis.R` and `results.csv`: only if you approve an executable plan;
+- `handoff.md`: the approved or rejected plan, one check and its limit, any
+  unresolved decisions, and a bounded claim or escalation.
+
+Also preserve the clean-session run log when code is executed.
+
+Before finishing, you should be able to explain the formula, sample, contrast direction, and one verification result without asking Claude.
+
+An incomplete analysis with a well-supported stop or escalation is a valid outcome.
+
+## A five-question review for any agent analysis
+
+1. **Target:** What quantity and population does this result describe?
+2. **Source:** Which consequential choices were specified, and which did the agent supply?
+3. **Execution:** Does the code implement the approved sample, estimator, contrast, and uncertainty procedure?
+4. **Evidence:** What check could expose an error, and what can it not establish?
+5. **Boundary:** Can I evaluate this choice well enough to approve it?
+
+If the fifth answer is no, narrow the task, learn the method, or seek expertise.
+
+## What to delegate—and what to retain
+
+| Usually productive to delegate | Retain or explicitly approve |
+|:--|:--|
+| Data inventory and mechanical summaries | Scientific question and target quantity |
+| Draft R code for a specified estimator | Population, sample, and adjustment logic |
+| Repetitive transformations and tables | Assumptions and uncertainty procedure |
+| Clean-session execution and logging | Interpretation and strength of claim |
+| Proposed diagnostics and alternatives | Whether a diagnostic is relevant and sufficient |
+
+Delegation is safest where the output is cheap to inspect and the consequence of error is understood.
+
+## The durable lesson
+
+```{=latex}
+\vspace{0.7em}
+{\LARGE\bfseries Let the agent accelerate the parts of statistical analysis you can specify and inspect.\par}
+
+\vspace{1.0em}
+{\Large Do not delegate the meaning of the analysis beyond your ability to evaluate it.\par}
+
+\vspace{1.0em}
+{\large A saved script answers “Can this computation be repeated?” Statistical judgment answers “Was this the right computation, and what does it warrant?”\par}
+```
+
+## Questions and application
+
+Bring one analysis you might ask Claude to help with.
+
+- What is the target quantity?
+- Which part can be specified well enough to delegate?
+- Which choice would exceed your present expertise?
+- What artifact would make the work inspectable?
+- What evidence would make you stop or reframe?
+
+## Appendix: research used in this workshop
+
+```{=latex}
+{\footnotesize
+\begin{itemize}
+\item Alizadeh, M., Mosleh, M., Gilardi, F., Kasirzadeh, A., \& Tucker, J. A. (2026). \textit{AI Coding Agents Can Reproduce Social Science Findings}.
+\item Miao, J., Pritchard, J. K., \& Zou, J. (2026). \textit{The Agentic Garden of Forking Paths}.
+\item Rahman, M., et al. (2026). \textit{DSAgentBench: Can Agents Automate End-to-End Data-Science Workflows in Real Computer Environments?}
+\item Sebo, P., \& Wang, T. (2026). Evaluating the performance of ChatGPT-5, Claude, and DeepSeek for statistical analysis in medicine. \textit{Internal and Emergency Medicine, 21}, 1227--1237.
+\item Song, X., et al. (2025). \textit{Performance Evaluation of Large Language Models in Statistical Programming}.
+\item Zhu, Y., Ding, Y., Lai, P., Wang, L., Jing, B., \& Chen, G. (2026). \textit{StatABench: Dataset and Framework for Evaluating Statistical Analysis Capabilities of LLMs}.
+\end{itemize}
+
+Local evidence: StatLab prompt-ablation study, Claude Opus 5, August 2026 (21 runs). All claims are bounded to the model versions, prompts, harnesses, and tasks evaluated.}
+```

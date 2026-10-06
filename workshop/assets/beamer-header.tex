@@ -1,0 +1,399 @@
+% ============================================================
+% StatLab Beamer Theme — Custom Header
+% Mirrors the color scheme and layout of custom.scss (RevealJS)
+% ============================================================
+
+% ── COLORS (matches custom.scss variables) ───────────────────
+\usepackage{xcolor}
+\usepackage{pifont}
+
+\definecolor{statprimary}{HTML}{2c3e50}    % dark gray-blue (body text)
+\definecolor{statsecondary}{HTML}{2980b9}  % blue (structure, links)
+\definecolor{statyale}{HTML}{00356b}       % Yale blue (footer)
+
+% Box backgrounds
+% Two-color system: Yale blue + statsecondary blue dominate.
+% Orange (#FF6600) reserved for key warnings / key findings only.
+\definecolor{stataccbg}{HTML}{e8f4f8}      % light cyan bg  — default block body
+\definecolor{statorange}{HTML}{FF6600}     % orange         — alert / key finding header
+\definecolor{statorangebg}{HTML}{FFF2E6}   % pale orange bg — alert body
+\definecolor{statexbg}{HTML}{e6eef5}       % pale Yale-blue bg — example / Sam block body
+\definecolor{statproof}{HTML}{95a5a6}      % gray           — proof (rarely used)
+\definecolor{statproofbg}{HTML}{f9f9f9}    % light gray bg
+
+% ── FONT: CMU Serif (LaTeX default) ─────────────────────────
+% Switch Beamer from its default sans-serif to the classic serif.
+\usefonttheme{serif}
+% For XeLaTeX, select the bundled files directly. This keeps the same CMU Serif
+% face while avoiding dependence on the host font registry.
+\setmainfont{cmunrm.ttf}[
+  Path=assets/fonts/,
+  BoldFont=cmunbx.ttf,
+  ItalicFont=cmunti.ttf,
+  BoldItalicFont=cmunbi.ttf
+]
+
+% ── BEAMER COLORS ────────────────────────────────────────────
+
+% Frame chrome
+\setbeamercolor{frametitle}{bg=statprimary, fg=white}
+\setbeamercolor{title}{fg=statprimary}
+\setbeamercolor{subtitle}{fg=statsecondary}
+\setbeamercolor{author}{fg=statprimary!70}
+\setbeamercolor{date}{fg=statprimary!70}
+\setbeamercolor{normal text}{fg=statprimary, bg=white}
+\setbeamercolor{structure}{fg=statsecondary}
+
+% Bullets and lists
+\setbeamercolor{item}{fg=statsecondary}
+\setbeamercolor{subitem}{fg=statsecondary!70}
+\setbeamercolor{enumerate item}{fg=statsecondary}
+\setbeamercolor{enumerate subitem}{fg=statsecondary!70}
+
+% Bullet shape: filled circle (level 1), open circle (level 2), dash (level 3)
+\setbeamertemplate{itemize item}{\small$\bullet$}
+\setbeamertemplate{itemize subitem}{\small$\circ$}
+\setbeamertemplate{itemize subsubitem}{\small\textendash}
+
+% Default block — blue, mirrors .theorem / .lemma / .corollary
+\setbeamercolor{block title}{fg=white, bg=statsecondary}
+\setbeamercolor{block body}{bg=stataccbg, fg=statprimary}
+
+% Alert block — orange (#FF6600), reserved for key warnings / findings
+\setbeamercolor{block title alerted}{fg=white, bg=statorange}
+\setbeamercolor{block body alerted}{bg=statorangebg, fg=statprimary}
+
+% Example block — Yale blue, used for Sam callbacks and contextual examples
+\setbeamercolor{block title example}{fg=white, bg=statyale}
+\setbeamercolor{block body example}{bg=statexbg, fg=statprimary}
+
+% ── FONT SIZES ───────────────────────────────────────────────
+\setbeamerfont{title}{size=\LARGE, series=\bfseries}
+\setbeamerfont{subtitle}{size=\large}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{block title}{size=\normalsize, series=\bfseries}
+\setbeamerfont{footline}{size=\scriptsize}
+
+% ── FRAME TITLE ──────────────────────────────────────────────
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[%
+    wd=\paperwidth, ht=2.6ex, dp=0.9ex, leftskip=0.9em%
+  ]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle%
+  \end{beamercolorbox}%
+}
+
+% ── HEADLINE: presentation title, top-right (hidden on title slide) ──
+\setbeamercolor{headline}{fg=statprimary!55, bg=white}
+\setbeamertemplate{headline}{%
+  \ifnum\insertframenumber>1%
+    \begin{beamercolorbox}[wd=\paperwidth, ht=2.2ex, dp=0.5ex]{headline}%
+      \hfill%
+      \usebeamercolor[fg]{headline}{\fontsize{6.5}{8}\selectfont\inserttitle}%
+      \hspace*{0.9em}%
+    \end{beamercolorbox}%
+  \else%
+    \vspace{2.7ex}% reserve same height on title slide so frame title aligns
+  \fi%
+}
+
+% ── FOOTER: branding + slide number (no logo) ────────────────
+\setbeamertemplate{footline}{%
+  {\color{statprimary!25}\hrule height 0.4pt}%
+  \begin{beamercolorbox}[wd=\paperwidth, ht=2.4ex, dp=1.4ex]{footline}%
+    \hspace*{0.9em}%
+    \textcolor{statyale}{\fontfamily{qpl}\selectfont Yale Library $|$ StatLab}%
+    \hfill%
+    \textcolor{statprimary!50}{\insertframenumber\,/\,\inserttotalframenumber}%
+    \hspace*{0.9em}%
+  \end{beamercolorbox}%
+}
+
+% ── IMAGE CONSTRAINTS ────────────────────────────────────────
+% Keep images within the content area so they never bleed into the footer.
+% max-width = full text column; max-height = 65 % of the frame text height.
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth, height=0.65\textheight, keepaspectratio}
+
+% ── TITLE PAGE ───────────────────────────────────────────────
+\setbeamertemplate{title page}{%
+  \vspace*{2.5em}%
+  \begin{beamercolorbox}[sep=0pt, left]{title}%
+    \usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par%
+  \end{beamercolorbox}%
+  \vspace*{0.5em}%
+  \begin{beamercolorbox}[sep=0pt, left]{subtitle}%
+    \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par%
+  \end{beamercolorbox}%
+  \vspace*{1.8em}%
+  \begin{beamercolorbox}[sep=0pt, left]{author}%
+    \usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par%
+  \end{beamercolorbox}%
+  \vspace*{0.4em}%
+  \begin{beamercolorbox}[sep=0pt, left]{date}%
+    \usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\par%
+  \end{beamercolorbox}%
+}
+
+% ── CUSTOM ENVIRONMENTS ──────────────────────────────────────
+% Use these inside raw LaTeX blocks (```{=latex}) in your .qmd.
+% Each mirrors the matching CSS class from the RevealJS theme.
+
+% Definition — Yale blue (consistent with two-color palette)
+\newenvironment{definitionblock}[1][Definition]{%
+  \begingroup%
+  \setbeamercolor{block title}{fg=white, bg=statyale}%
+  \setbeamercolor{block body}{bg=statexbg, fg=statprimary}%
+  \begin{block}{#1}%
+}{%
+  \end{block}%
+  \endgroup%
+}
+
+% Lemma — blue, mirrors .lemma (same as default block)
+\newenvironment{lemmablock}[1][Lemma]{%
+  \begingroup%
+  \begin{block}{#1}%
+}{%
+  \end{block}%
+  \endgroup%
+}
+
+% Corollary — blue, mirrors .corollary (same as default block)
+\newenvironment{corollaryblock}[1][Corollary]{%
+  \begingroup%
+  \begin{block}{#1}%
+}{%
+  \end{block}%
+  \endgroup%
+}
+
+% Proof with QED square — gray, mirrors .proof
+\newenvironment{proofblock}[1][Proof]{%
+  \begingroup%
+  \setbeamercolor{block title}{fg=white, bg=statproof}%
+  \setbeamercolor{block body}{bg=statproofbg, fg=statprimary}%
+  \begin{block}{\textit{#1}}%
+  \itshape%
+}{%
+  \hfill$\square$%
+  \end{block}%
+  \endgroup%
+}
+
+% ── Workshop slide packages ───────────────────────────────────────────────
+\usepackage{listings}
+\usepackage{forest}
+\usepackage{tikz}
+\usetikzlibrary{arrows,arrows.meta,positioning,shapes.geometric,calc}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{colortbl}   % \cellcolor / \rowcolor for highlighting table lookups
+
+% ── Workshop color definitions ────────────────────────────────────────────
+% Inline semantic colors (used in tables/code for before/after comparisons)
+\definecolor{errorred}{RGB}{180,30,30}       % red  — bad examples, error states
+\definecolor{highlightgreen}{RGB}{0,130,80}  % green — good examples, cached targets
+\definecolor{commentgray}{RGB}{120,120,120}  % gray — code comments
+\definecolor{warnorange}{RGB}{200,100,0}     % warm orange — string literals in code
+\definecolor{lightblue}{RGB}{220,235,255}    % light blue — tikz fill
+
+% ── Listings: tiny font, StatLab color accents ────────────────────────────
+\lstset{
+  basicstyle=\ttfamily\tiny,
+  breaklines=true,
+  frame=single,
+  framerule=0.4pt,
+  framesep=3pt,
+  xleftmargin=8pt,
+  xrightmargin=4pt,
+  showstringspaces=false,
+  commentstyle=\color{commentgray}\itshape,
+  keywordstyle=\color{statsecondary}\bfseries,
+  stringstyle=\color{warnorange},
+  numbers=left,
+  numberstyle=\tiny\color{gray!60},
+  numbersep=5pt,
+  tabsize=2,
+  aboveskip=3pt,
+  belowskip=3pt,
+}
+
+% ── Forest dirtree style ──────────────────────────────────────────────────
+\forestset{
+  dirtree/.style={
+    for tree={
+      font=\ttfamily\scriptsize,
+      grow'=0,
+      child anchor=west,
+      parent anchor=south,
+      anchor=west,
+      calign=first,
+      inner sep=1pt,
+      outer sep=0pt,
+      edge path={
+        \noexpand\path [draw, \forestoption{edge}]
+        (!u.south west) +(7.5pt,0) |- (.child anchor)
+        \forestoption{edge label};
+      },
+      before typesetting nodes={
+        if n=1{insert before={[,phantom]}}{}
+      },
+      fit=band,
+      before computing xy={l=15pt},
+    },
+  }
+}
+
+% ── Quarto code block font size override ──────────────────────────────────
+% Load fancyvrb explicitly so \DefineVerbatimEnvironment is always available,
+% whether or not pandoc includes code blocks that trigger its auto-load.
+\usepackage{fancyvrb}
+\AtBeginDocument{%
+  % Source code (syntax-highlighted input)
+  \DefineVerbatimEnvironment{Highlighting}{Verbatim}{%
+    commandchars=\\\{\},%
+    fontsize=\small%
+  }%
+  % Printed results (plain verbatim) — matched to the input so a chunk
+  % and its output read at one consistent size.
+  \RecustomVerbatimEnvironment{verbatim}{Verbatim}{fontsize=\small}%
+}
+
+% ── Two-column shorthand colors for code comparisons ─────────────────────
+\newcommand{\badlabel}{{\color{errorred}\textbf{$\boldsymbol{\times}$ Before}}}
+\newcommand{\goodlabel}{{\color{highlightgreen}\textbf{\ding{51}~After}}}
+
+% ── ORR Workshop rebuild macros (2025) ────────────────────────────────────
+
+% Yale blue alias (for \color{yale})
+\colorlet{yale}{statyale}
+
+% Figure placeholder — reserves whitespace and flags human action needed
+\newcommand{\figplaceholder}[1]{%
+  \begin{center}%
+  \fbox{\begin{minipage}{0.82\textwidth}%
+  \centering\vspace{1.4cm}%
+  {\large\color{gray} [FIGURE: #1]}\\[0.3cm]%
+  {\small\color{gray}\itshape See [HUMAN INSTRUCTION] comment in source}%
+  \vspace{1.4cm}%
+  \end{minipage}}%
+  \end{center}%
+}
+
+% Key finding callout (red alert block)
+\newcommand{\findingbox}[1]{%
+  \begin{alertblock}{Key Finding}%
+  #1%
+  \end{alertblock}%
+}
+
+% Title-less callout — example-block coloring, no title bar.
+% Use where a block would otherwise invent a second heading under the frame title.
+\newenvironment{notebox}{%
+  \begin{center}%
+  \begin{minipage}{0.95\textwidth}%
+  \begin{beamercolorbox}[wd=\textwidth, sep=6pt]{block body example}%
+}{%
+  \end{beamercolorbox}%
+  \end{minipage}%
+  \end{center}%
+}
+
+% Inline pain/solution markers
+\newcommand{\pain}[1]{{\color{errorred}\textbf{Problem:}} #1}
+\newcommand{\solutiontag}[1]{{\color{yale}\textbf{Solution:}} #1}
+
+% Parker Lab scenario callback — green example block
+\newcommand{\samcallback}[1]{%
+  \begin{exampleblock}{Parker Lab --- Sam's Problem}%
+  \small #1%
+  \end{exampleblock}%
+}
+
+% ── Named lstlisting styles ────────────────────────────────────────────────
+% Override the global \tiny with \scriptsize for readability on slides.
+
+\lstdefinestyle{Rcode}{%
+  language=R,%
+  basicstyle=\ttfamily\scriptsize,%
+  backgroundcolor=\color{gray!8},%
+  frame=single,%
+  breaklines=true,%
+  breakatwhitespace=false,%
+  showstringspaces=false,%
+  numbers=none,%
+}
+
+\lstdefinestyle{bashcode}{%
+  language=bash,%
+  basicstyle=\ttfamily\scriptsize,%
+  backgroundcolor=\color{gray!8},%
+  frame=single,%
+  breaklines=true,%
+  numbers=none,%
+}
+
+\lstdefinestyle{Pythoncode}{%
+  language=Python,%
+  basicstyle=\ttfamily\scriptsize,%
+  backgroundcolor=\color{gray!8},%
+  frame=single,%
+  breaklines=true,%
+  numbers=none,%
+}
+
+\lstdefinestyle{jsoncode}{%
+  language={},%
+  basicstyle=\ttfamily\scriptsize,%
+  backgroundcolor=\color{gray!8},%
+  frame=single,%
+  breaklines=true,%
+  numbers=none,%
+  morestring=[b]",%
+  stringstyle=\color{warnorange},%
+}
+
+\lstdefinestyle{yamlcode}{%
+  language={},%
+  basicstyle=\ttfamily\scriptsize,%
+  backgroundcolor=\color{gray!8},%
+  frame=single,%
+  breaklines=true,%
+  numbers=none,%
+  morecomment=[l]{\#},%
+  commentstyle=\color{commentgray}\itshape,%
+}
+
+\lstdefinestyle{textcode}{%
+  language={},%
+  basicstyle=\ttfamily\scriptsize,%
+  backgroundcolor=\color{gray!8},%
+  frame=none,%
+  breaklines=true,%
+  numbers=none,%
+}
+
+% ── PROMPT DECOMPOSITION HIGHLIGHTS ──────────────────────────────────────
+% Used on the "Prompting" slides: a span of prompt text and the bullet that
+% describes it share a highlight color, so the prompt decomposes visually.
+% soul's \hl breaks across lines; wrap \texttt tokens in \mbox, and split
+% long filenames into two \mbox groups so a line break can fall between them.
+\usepackage{soul}
+
+\definecolor{hlblue}{HTML}{D3E7F5}
+\definecolor{hlorange}{HTML}{FBE0C4}
+\definecolor{hlgreen}{HTML}{D8E9D1}
+\definecolor{hlpurple}{HTML}{E3D8EF}
+
+\newcommand{\hlA}[1]{\begingroup\sethlcolor{hlblue}\hl{#1}\endgroup}
+\newcommand{\hlB}[1]{\begingroup\sethlcolor{hlorange}\hl{#1}\endgroup}
+\newcommand{\hlC}[1]{\begingroup\sethlcolor{hlgreen}\hl{#1}\endgroup}
+\newcommand{\hlD}[1]{\begingroup\sethlcolor{hlpurple}\hl{#1}\endgroup}
+
+% Short label above each column on the prompting slides.
+\newcommand{\collabel}[1]{{\color{statprimary!60}\scriptsize\textsc{#1}}\par\vspace{0.35em}}

@@ -1,0 +1,16 @@
+.DS_Store
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Quarto / LaTeX intermediates
+/.quarto/
+workshop/*.tex
+workshop/*.aux
+workshop/*.log
+workshop/*.nav
+workshop/*.snm
+workshop/*.toc
+workshop/*.vrb
+workshop/*_files/
