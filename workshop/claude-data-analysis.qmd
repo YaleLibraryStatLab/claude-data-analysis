@@ -484,24 +484,27 @@ Reframing is not failure. It is a statistical result of the audit.
 
 ## I Do: execution follows the approved plan
 
-With no college interactions, the coefficient equals the average fitted
-1-versus-0 prediction contrast.
+Excerpt from `scripts/i-do/analysis.R`:
 
 ```r
-formula <- reformulate(
-  c("college", approved_covariates), response = "yppnscal"
-)
-fit <- lm(formula, data = d)
-V <- sandwich::vcovHC(fit, type = "HC2")
-estimate <- coef(fit)["college"]
-interval <- lmtest::coefci(fit, vcov. = V, parm = "college")
-out <- data.frame(estimate, lower = interval[1], upper = interval[2])
-write.csv(out, "scripts/i-do/results.csv", row.names = FALSE)
+for (v in multi) a[[v]] <- factor(a[[v]])
+rhs <- paste(c("college", covs), collapse = " + ")
+hc2_omega <- function(residuals, diaghat, df) {
+  ifelse(diaghat > 1 - 1e-8, 0, residuals^2 / (1 - diaghat))
+}
+
+fit <- lm(as.formula(paste("yppnscal ~", rhs)), data = a)
+V <- vcovHC(fit, omega = hc2_omega)
+est <- mean(predict(fit, a1) - predict(fit, a0))
+se <- sqrt(V["college", "college"])
+ci <- est + c(-1, 1) * qt(0.975, df_res) * se
 ```
+
+`vcovHC(fit, type = "HC2")` returns `NaN` here: one respondent is alone in a category.
 
 ## I Do: the handoff
 
-> In this analysis sample of `\textcolor{statorange}{[n]}`{=latex} respondents, college attendees reported `\textcolor{statorange}{[estimate]}`{=latex} more political acts on the 0--8 index than non-attendees, after adjusting for the approved 1965 covariates (HC2 95% interval `\textcolor{statorange}{[lower, upper]}`{=latex}). College attendance and participation were both recorded in 1973, so these data do not establish that college preceded the reported acts. The estimate is an adjusted association, not a causal effect.
+> In this analysis sample of 1,254 respondents, college attendees reported 0.65 more political acts on the 0--8 index than non-attendees, after adjusting for the approved 1965 covariates (HC2 95% interval 0.39 to 0.92). College attendance and participation were both recorded in 1973, so these data do not establish that college preceded the reported acts. The estimate is an adjusted association, not a causal effect.
 
 ## I Do: the same brief across 21 agent runs
 
@@ -510,16 +513,17 @@ In a local prompt-ablation study (seven brief conditions, three runs each):
 - 20 of 21 runs ran the placebo analysis; one identified the recode.
 - All 15 runs that saved a script reproduced their reported coefficient to $10^{-6}$.
 
-| Run with design instruction removed | Estimate | Agent's declared target |
-|:------|---:|:-------|
-| 1 | 0.722 | ATT: average among attendees |
-| 2 | 0.727 | ATE: average in the target population |
-| 3 | 0.722 | No estimand stated |
+| Run (all OLS, HC2) | Estimate | Declared target |
+|:------|---:|:------------|
+| Earlier run 1 | 0.722 | ATT: average among attendees |
+| Earlier run 2 | 0.727 | ATE: average in the target population |
+| Earlier run 3 | 0.722 | No estimand stated |
+| This workshop | 0.654 | Adjusted association, not causal |
 
-Three nearly identical numbers did not represent the same stated quantity.
+Three nearly identical numbers did not share a stated target. The fourth differs mainly because 62 covariates were coded as categories, not numbers.
 
 ```{=latex}
-{\scriptsize\color{statprimary!65}Local prompt-ablation study, Claude Opus 5, August 2026; seven conditions, three runs per condition.\par}
+{\scriptsize\color{statprimary!65}Local prompt-ablation study, Claude Opus 5, August 2026. Earlier runs 1 to 3 had the design instruction removed.\par}
 ```
 
 ## I Do: what the agent did and what the analyst did

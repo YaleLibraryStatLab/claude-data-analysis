@@ -1,0 +1,77 @@
+R: R version 4.6.1 (2026-06-24) 
+sandwich: 3.1.2 
+input md5: 475da6dc691bef5c8dd006372c89019e 
+
+== Primary: OLS, averaged predicted difference ==
+n = 1254, coefficients = 207, residual df = 1047
+estimate = 0.653973  HC2 se = 0.133402  95% CI = [0.392207, 0.915738]
+
+== Diagnostics ==
+1. design columns: 207  rank: 207  aliased: 0 
+2. leverage max: 1  n > 0.5: 1  n > 0.99: 1  ids > 0.99: 1668 
+3. treatment counts within covariate levels with fewer than 10 rows:
+        variable level college0 college1
+ y1965_Newspaper     4        1        6
+    y1965_FrTalk     0        0        1
+  y1965_LifeWish     2        2        1
+       y1965_GPA     5        3        0
+      y1965_Race     3        1        7
+     p1965_CLOrg     3        2        5
+     p1965_CLOrg     4        3        3
+4. share outside [0, 8]: fitted 0.0183  at_college1 0.0032  at_college0 0.0191 
+   fitted range: -1.182 6.397 
+5. mean residual by decile of fitted value:
+ decile mean_fitted mean_resid sd_resid
+      1       0.379      0.351    0.905
+      2       1.119     -0.007    0.927
+      3       1.507     -0.059    1.313
+      4       1.853     -0.035    1.364
+      5       2.156     -0.156    1.452
+      6       2.453     -0.077    1.670
+      7       2.747     -0.128    1.713
+      8       3.063     -0.303    1.711
+      9       3.462     -0.030    1.969
+     10       4.284      0.439    1.759
+   quadratic-in-fitted term for residuals, t = 5.694 
+6. largest leave-one-out change in college coefficient: 0.03733 (id 1015 ) = 0.28 HC2 se
+7. se for information only: classical 0.136154  HC3 0.146018  (reported HC2 0.133402 )
+
+== Alternative: fractional logit, averaged predicted difference ==
+8. converged: TRUE  iterations: 5  warnings: none 
+   fitted proportion range: 0.0152956 0.8252060  n within 1e-6 of 0 or 1: 0 
+   outcome of the leverage-1 row (id 1668): 2 
+estimate = 0.691636  delta-method HC2 se = 0.130861  95% CI = [0.435152, 0.948119]
+   glm leverage max: 1  n > 0.99: 1 
+
+== results.csv ==
+        role    n  estimate std_error  conf_low conf_high
+     primary 1254 0.6539727 0.1334020 0.3922069 0.9157385
+ alternative 1254 0.6916356 0.1308612 0.4351523 0.9481189
+no stop condition met; flagged: residual curvature against fitted values (quadratic t = 5.7) and 1.8% of fitted values outside 0-8, so the linear form is imperfect; full rank; leverage 1 only for id 1668 (approved, zero HC2 contribution); max leave-one-out shift 0.28 se
+no stop condition met; converged in 5 iterations; no fitted proportion at 0 or 1
+
+warnings():
+
+sessionInfo:
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin23
+Running under: macOS Sequoia 15.7.7
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.6/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US/en_US/en_US/C/en_US/en_US
+
+time zone: America/New_York
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] sandwich_3.1-2
+
+loaded via a namespace (and not attached):
+[1] zoo_1.8-15     compiler_4.6.1 tools_4.6.1    grid_4.6.1     lattice_0.22-9

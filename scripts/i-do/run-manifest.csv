@@ -1,0 +1,10 @@
+run_id,date,checkpoint,command,purpose,status,disposition
+A1,2026-10-08,audit,inline Rscript -e profile of the CSV,first look at dimensions and value tables,completed,superseded by A3; not saved
+A2,2026-10-08,audit,Rscript --vanilla scripts/i-do/audit.R,first full audit script run,completed,superseded by A3 after checks were appended
+A3,2026-10-08,audit,Rscript --vanilla scripts/i-do/audit.R > scripts/i-do/audit-log.txt,final audit run,completed,reported in audit.md
+A4,2026-10-08,audit,inline Rscript -e count check,cross-check inventory counts and two percentages quoted in audit.md,completed,led to count corrections in audit.md section 8; not saved
+P1,2026-10-08,plan,inline Rscript --vanilla -e design check,"outcome-free design facts: column count, rank, leverage, sparse levels, package availability",completed,quoted in plan.md; not saved
+E1,2026-10-08,execute,Rscript --vanilla scripts/i-do/analysis.R,primary and alternative as approved,completed,superseded by E2: identical estimates; diagnostic_status wording revised
+V1,2026-10-08,execute,Rscript --vanilla scripts/i-do/verification.R,independent recomputation against E1 results.csv,completed (agreement within 1e-8),superseded by V2
+E2,2026-10-08,execute,Rscript --vanilla scripts/i-do/analysis.R > scripts/i-do/analysis-log.txt,final run of primary and alternative,completed,reported in results.csv and report.md
+V2,2026-10-08,execute,Rscript --vanilla scripts/i-do/verification.R > scripts/i-do/verification-log.txt,independent recomputation against E2 results.csv,completed (agreement within 1e-8),reported in report.md

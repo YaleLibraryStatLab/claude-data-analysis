@@ -1,0 +1,17 @@
+verification: n = 1254, columns = 207, residual df = 1047
+verification: estimate = 0.6539726690  HC2 se = 0.1334020349  CI = [0.3922068817, 0.9157384563]
+verification: partialling-out estimate = 0.6539726690
+
+raw y1965_FrTalk counts:
+
+  0   1   2   3   4 
+  1 358 584  79 232 
+row with y1965_FrTalk == 0: interviewid 1668  leverage 1  residual 5.09e-12 
+largest leverage among other rows: 0.4768 
+
+differences from results.csv (verification minus primary):
+estimate.college        std_error         conf_low        conf_high 
+        1.10e-14        -1.34e-14         3.64e-14        -1.54e-14 
+    fwl_estimate 
+       -2.82e-14 
+agreement within 1e-8: TRUE 
