@@ -471,7 +471,7 @@ The audit does not support the requested causal target from the supplied informa
 
 The approved fallback is narrower:
 
-> Estimate the standardized adjusted difference in the participation index between college attendees and non-attendees in this analysis sample.
+> Estimate the adjusted difference in the participation index between college attendees and non-attendees: the average predicted difference, in index points, over this analysis sample.
 
 The agent may implement the model. The researcher owns:
 
@@ -501,7 +501,7 @@ write.csv(out, "scripts/i-do/results.csv", row.names = FALSE)
 
 ## I Do: the handoff
 
-> In this analysis sample of `\textcolor{statorange}{[n]}`{=latex} respondents, college attendees reported `\textcolor{statorange}{[estimate]}`{=latex} more political acts on the 0--8 index than non-attendees, after standardizing over the approved 1965 covariates (HC2 95% interval `\textcolor{statorange}{[lower, upper]}`{=latex}). College attendance and participation were both recorded in 1973, so these data do not establish that college preceded the reported acts. The estimate is an adjusted association, not a causal effect.
+> In this analysis sample of `\textcolor{statorange}{[n]}`{=latex} respondents, college attendees reported `\textcolor{statorange}{[estimate]}`{=latex} more political acts on the 0--8 index than non-attendees, after adjusting for the approved 1965 covariates (HC2 95% interval `\textcolor{statorange}{[lower, upper]}`{=latex}). College attendance and participation were both recorded in 1973, so these data do not establish that college preceded the reported acts. The estimate is an adjusted association, not a causal effect.
 
 ## I Do: the same brief across 21 agent runs
 

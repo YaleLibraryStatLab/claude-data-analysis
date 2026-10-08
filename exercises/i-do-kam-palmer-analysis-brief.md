@@ -21,9 +21,11 @@ This expectation must not guide estimator choice or specification search.
 as the requested scientific target. The audit must establish whether the
 supplied documentation supports its temporal and consistency assumptions. If it
 does not, the researcher may approve a different descriptive target: the
-standardized adjusted difference in the participation index between college
-attendees and non-attendees in the analysis sample. That fallback must not be
-described as causal.
+adjusted difference in the participation index between college attendees and
+non-attendees, in index points. It is computed by predicting each respondent's
+index with college set to 1 and to 0 and averaging the differences over the
+analysis sample. It is not a difference in standard-deviation units. That
+fallback must not be described as causal.
 
 **Decision rule:** Treat failure of the causal timing requirement as a reason to
 stop or reframe, not as a caveat added after estimation. For an approved
@@ -99,10 +101,13 @@ identified from the supplied information. If temporal ordering is unresolved,
 stop. Continue only after the researcher explicitly approves the descriptive
 fallback target.
 
-For that descriptive target, propose a standardized outcome-regression analysis
-using the facilitator-validated adjustment inventory and coding map. State the
-analysis sample, functional-form assumptions, uncertainty procedure, required
-diagnostics, and failure conditions. Propose one alternative outcome
+For that descriptive target, propose an outcome-regression analysis that
+averages each respondent's predicted difference (college 1 versus 0) over the
+analysis sample. No adjustment inventory or coding map is supplied in advance:
+use the one the researcher approves from your audit proposal, and record it in
+`scripts/i-do/decision-log.md`. Use HC2 heteroskedasticity-robust standard
+errors for the primary estimate. State the analysis sample, functional-form
+assumptions, required diagnostics, and failure conditions. Propose one alternative outcome
 specification that preserves the same target and sample. Do not fit the model.
 Write `scripts/i-do/plan.md`, record the proposed decisions in
 `scripts/i-do/decision-log.md`, and wait for approval.
