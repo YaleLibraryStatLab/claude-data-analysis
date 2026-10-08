@@ -458,8 +458,9 @@ The data contain `p1965_HHCollegePlacebo`, described as a placebo variable.
 Direct inspection showed:
 
 ```r
-with(d, all(p1965_HHCollegePlacebo == (p1965_EducHH >= 5)))
-# TRUE for all 1,247 non-missing rows
+same <- with(d, p1965_HHCollegePlacebo == (p1965_EducHH >= 5))
+table(same, useNA = "ifany")
+# TRUE for all 1,247 non-missing rows; 7 rows are missing
 ```
 
 It is a deterministic recode of household education—one of the adjustment variables—not an independent placebo outcome.
