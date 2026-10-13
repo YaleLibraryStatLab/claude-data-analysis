@@ -19,3 +19,6 @@ workshop/*_files/
 instructor_files/responses/*
 !instructor_files/responses/.gitkeep
 instructor_files/we-do-comparison.*
+
+# Personal Claude Code settings (holds the workshop API key)
+

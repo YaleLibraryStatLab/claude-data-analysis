@@ -832,3 +832,28 @@ Bring one analysis you might ask Claude to help with.
 
 Local evidence: StatLab prompt-ablation study, Claude Opus 5, August 2026 (21 runs). All claims are bounded to the model versions, prompts, harnesses, and tasks evaluated.}
 ```
+
+## Feedback
+
+:::: {.columns}
+::: {.column width="58%"}
+```{=latex}
+\vspace{1.2em}
+{\LARGE\bfseries Please tell us how the workshop went.\par}
+
+\vspace{1.0em}
+{\Large Scan the code to share your feedback. It takes a couple of minutes and helps us improve the next session.\par}
+
+\vspace{1.0em}
+{\large Thank you for coming.\par}
+```
+:::
+::: {.column width="38%"}
+![](assets/feedback-qr.png){width=100%}
+
+```{=latex}
+\vspace{0.5em}
+{\centering\scriptsize\color{statprimary!65}Feedback survey\par}
+```
+:::
+::::
