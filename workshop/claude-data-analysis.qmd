@@ -1,8 +1,9 @@
 ---
-title: "Statistical Analysis with Coding Agents"
+title: "Using Claude Code for Data Analysis"
 subtitle: "Directing, inspecting, and learning from agent-assisted work in R"
 author:
   - "Ted Ellsworth, PhD"
+  - "Haley Xiaohe Zhang"
 date: today
 format:
   beamer:
@@ -112,8 +113,8 @@ StatABench evaluates both closed questions and open-ended modeling with tools.
 
 | Benchmark | Best reported performance |
 |:--|:--|
-| 404 closed statistical questions | GPT-5.1: 68.6% |
-| 30 open-ended modeling problems | Top agent framework: 61.86 / 100 |
+| 404 closed statistical questions | GPT-5.1: 68.6% correct |
+| 30 open-ended modeling problems | Top framework: 61.86 of 100 points |
 
 The persistent failures involved tool-grounded reasoning, methodological decisions, and end-to-end modeling—not merely R or Python syntax.
 
@@ -506,24 +507,35 @@ ci <- est + c(-1, 1) * qt(0.975, df_res) * se
 
 > In this analysis sample of 1,254 respondents, college attendees reported 0.65 more political acts on the 0--8 index than non-attendees, after adjusting for the approved 1965 covariates (HC2 95% interval 0.39 to 0.92). College attendance and participation were both recorded in 1973, so these data do not establish that college preceded the reported acts. The estimate is an adjusted association, not a causal effect.
 
-## I Do: the same brief across 21 agent runs
+## I Do: 21 autonomous runs missed what the audit caught
 
-In a local prompt-ablation study (seven brief conditions, three runs each):
-
-- 20 of 21 runs ran the placebo analysis; one identified the recode.
-- All 15 runs that saved a script reproduced their reported coefficient to $10^{-6}$.
-
-| Run (all OLS, HC2) | Estimate | Declared target |
-|:------|---:|:------------|
-| Earlier run 1 | 0.722 | ATT: average among attendees |
-| Earlier run 2 | 0.727 | ATE: average in the target population |
-| Earlier run 3 | 0.722 | No estimand stated |
-| This workshop | 0.654 | Adjusted association, not causal |
-
-Three nearly identical numbers did not share a stated target. The fourth differs mainly because 62 covariates were coded as categories, not numbers.
+Same data and question, run end to end with no checkpoints: seven versions of the brief, three runs each.
 
 ```{=latex}
-{\scriptsize\color{statprimary!65}Local prompt-ablation study, Claude Opus 5, August 2026. Earlier runs 1 to 3 had the design instruction removed.\par}
+\vspace{0.3em}
+\begin{columns}[T]
+\begin{column}{0.31\textwidth}\centering
+{\fontsize{30}{34}\selectfont\bfseries\color{statorange} 1 of 21}\\[0.3em]
+{\small saw that the ``placebo'' is a recode of a covariate. 19 others ran it as a test.}
+\end{column}
+\begin{column}{0.31\textwidth}\centering
+{\fontsize{30}{34}\selectfont\bfseries\color{statorange} 0 of 21}\\[0.3em]
+{\small asked whether college came before the reported acts. Both were recorded in 1973.}
+\end{column}
+\begin{column}{0.31\textwidth}\centering
+{\fontsize{30}{34}\selectfont\bfseries\color{statorange} 0 of 21}\\[0.3em]
+{\small stepped back from a causal target: ATE (16), ATT (3), ATO (1), none stated (1).}
+\end{column}
+\end{columns}
+\vspace{0.3em}
+```
+
+The runs were diligent and consistent: 21 checked balance, every saved script reproduced its coefficient to $10^{-6}$, and all estimates fell between 0.72 and 0.89.
+
+**Diligence, reproducibility, and agreement did not make the claim valid.** The checkpointed run you just saw caught all three before a model was fit.
+
+```{=latex}
+{\scriptsize\color{statprimary!65}StatLab prompt-ablation study, Claude Opus 5, August 2026. Timing count from a search of each run's script and report.\par}
 ```
 
 ## I Do: what the agent did and what the analyst did
