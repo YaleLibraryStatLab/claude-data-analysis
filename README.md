@@ -51,6 +51,12 @@ Then, in Positron, choose **File > Open Folder** and select the
 `claude-data-analysis` folder itself. Claude Code works in the folder you open,
 and the exercises use paths relative to this project root.
 
+> **Using your own Claude Pro or Max subscription?** Delete
+> `.claude/settings.local.json` (or the whole `.claude` folder) before starting
+> Claude Code. That file routes Claude Code through the workshop API key and
+> will override your subscription sign-in. The folder is hidden by default; on
+> a Mac, press Cmd+Shift+. in Finder to show it.
+
 ## What is in this repository
 
 | Item | What it is |

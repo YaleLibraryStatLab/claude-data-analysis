@@ -133,79 +133,34 @@ Claude-account login.
 
 ### Workshop API key
 
-If your instructor gives you a workshop key, you will save three environment
-variables once. Each new terminal window then loads them.
+If your instructor gives you a workshop key, paste it into the settings file
+that comes with the workshop folder. Claude Code reads that file whenever you
+start it inside `claude-data-analysis`.
 
-| Variable | Purpose |
-|---|---|
-| `ANTHROPIC_BASE_URL` | Sends Claude Code requests to OpenRouter |
-| `ANTHROPIC_AUTH_TOKEN` | Supplies your workshop key |
-| `ANTHROPIC_API_KEY` | Left empty to prevent a conflict with an old value |
+1. In Positron, choose **File > Open Folder** and open `claude-data-analysis`.
+2. In the file Explorer on the left, open `.claude/settings.local.json`. (The
+   `.claude` folder is hidden in Finder and File Explorer, but Positron shows
+   it.) The file looks like this:
 
-> **Keep the key private.** Paste it only into the commands or settings file
-> shown here. Never put it in the Claude chat, a project file, or a
-> project-level `.env` file. Anyone who has the key can use the workshop
-> credits. If Claude ever asks you to paste a key into the chat, stop and ask
-> an instructor.
-
-The base URL is exactly `https://openrouter.ai/api`, with no `/v1` at the end.
-
-**Mac**
-
-1. Open Terminal and create your terminal settings file, then open it in
-   TextEdit:
-
-   ```sh
-   touch ~/.zshrc
-   open -e ~/.zshrc
+   ```json
+   {
+     "env": {
+       "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+       "ANTHROPIC_AUTH_TOKEN": "sk-or-your-key-here",
+       "ANTHROPIC_API_KEY": ""
+     }
+   }
    ```
 
-2. Paste these three lines at the **bottom** of the file, replacing
-   `sk-or-your-key-here` with your real workshop key:
+3. Replace `sk-or-your-key-here` with your workshop key. Keep the quotation
+   marks and change nothing else.
+4. Save the file.
 
-   ```sh
-   export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
-   export ANTHROPIC_AUTH_TOKEN="sk-or-your-key-here"
-   export ANTHROPIC_API_KEY=""
-   ```
-
-3. Save, close TextEdit, and open a **new** Terminal window.
-4. Run this check. It does not display your key:
-
-   ```sh
-   echo "$ANTHROPIC_BASE_URL"
-   [[ -n "$ANTHROPIC_AUTH_TOKEN" ]] \
-     && echo "API key is set" \
-     || echo "API key is missing"
-   ```
-
-   You should see `https://openrouter.ai/api` and `API key is set`.
-
-**Windows**
-
-1. Open PowerShell and run these two commands, with your real workshop key in
-   the second:
-
-   ```powershell
-   setx ANTHROPIC_BASE_URL "https://openrouter.ai/api"
-   setx ANTHROPIC_AUTH_TOKEN "sk-or-your-key-here"
-   ```
-
-   If you have used a direct Anthropic API key before, also clear the old
-   value. Most first-time users can skip this:
-
-   ```powershell
-   [Environment]::SetEnvironmentVariable("ANTHROPIC_API_KEY", $null, "User")
-   ```
-
-2. **Close PowerShell completely** and open a new window. Settings saved with
-   `setx` appear only in windows opened afterward.
-3. Run this check. It does not display your key:
-
-   ```powershell
-   echo $env:ANTHROPIC_BASE_URL
-   if ($env:ANTHROPIC_AUTH_TOKEN) { "API key is set" } else { "API key is missing" }
-   ```
+> **Keep the key private.** The key stays in this file on your own computer.
+> Never paste it into the Claude chat, and do not commit or upload this file
+> if you cloned the repository with Git. Anyone who has the key can use the
+> workshop credits. If Claude ever asks you for a key, stop and ask an
+> instructor.
 
 **Verify the connection**
 
@@ -220,10 +175,13 @@ It should show `Auth token: ANTHROPIC_AUTH_TOKEN` and
 `/logout`, then `/exit`, start `claude` again, and repeat `/status`. Use
 `/usage` during the workshop to monitor spending against the key's limit.
 
-**Fallback: a global settings file**
+The key works only when Claude Code starts inside `claude-data-analysis`.
 
-Use this only if the environment variables do not reach Claude Code. It is an
-alternative, not an additional step.
+**Alternative: use the key in every folder**
+
+To use the key outside this folder, put the same settings in a global file
+instead. Then delete `.claude/settings.local.json` from the project folder,
+because the project file takes priority and would override the global one.
 
 ```sh
 # Mac
@@ -238,30 +196,32 @@ mkdir "$env:USERPROFILE\.claude" -Force
 notepad "$env:USERPROFILE\.claude\settings.json"
 ```
 
-Paste this, replace the placeholder with your real key, and save:
-
-```json
-{
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
-    "ANTHROPIC_AUTH_TOKEN": "sk-or-your-key-here",
-    "ANTHROPIC_API_KEY": ""
-  }
-}
-```
-
-Keep this file in the `.claude` folder in your home directory. Never save a
-real key inside a project folder. Open a new terminal window and verify the
-connection again.
+Paste the JSON shown above with your real key, save, and verify the connection
+again.
 
 ### Your own Claude account
 
 If you have a Claude Pro, Max, Team, or Enterprise subscription:
 
-1. In the `claude-data-analysis` folder, run `claude`.
-2. If a browser does not open, enter `/login`.
-3. Sign in with your Claude account, then return to the terminal.
-4. Run `/status` to confirm the account login is active.
+1. Delete `.claude/settings.local.json` from the `claude-data-analysis`
+   folder (or delete the whole `.claude` folder). That file routes Claude Code
+   through the workshop API key and will override your subscription sign-in.
+   From inside the folder:
+
+   ```sh
+   # Mac
+   rm .claude/settings.local.json
+   ```
+
+   ```powershell
+   # Windows (PowerShell)
+   Remove-Item .claude\settings.local.json
+   ```
+
+2. In the `claude-data-analysis` folder, run `claude`.
+3. If a browser does not open, enter `/login`.
+4. Sign in with your Claude account, then return to the terminal.
+5. Run `/status` to confirm the account login is active.
 
 A Yale (`@yale.edu`) email may be blocked or tied up by university sign-in
 rules when creating a Claude account. If sign-up fails, create the account
@@ -269,17 +229,14 @@ with a personal email address instead.
 
 ## Step 7: Add the Claude Code extension to Positron
 
-If you set a workshop key, fully quit and reopen Positron first so it loads the
-new settings.
-
 1. **File** menu, **Open Folder**, and choose `claude-data-analysis`.
 2. Open the Extensions panel.
 3. Search for **Claude Code** and install the official extension.
 4. Open the Claude Code panel.
 
 With a workshop key, do **not** sign in through the extension. If `/status`
-works in the terminal but the extension asks you to sign in, use the global
-settings file fallback above.
+works in the terminal but the extension asks you to sign in, check that you
+saved `.claude/settings.local.json`, then fully quit and reopen Positron.
 
 You can also run Claude Code from Positron's integrated terminal: **Terminal**
 menu, **New Terminal**, then run `claude`.
@@ -323,10 +280,11 @@ You are ready if each item works:
 | npm install fails (Windows) | Enable Developer Mode (Windows Settings → System → Developer Options) |
 | No admin rights on your laptop | Use the native installer in Step 4 |
 | Sign-in loop | Inside Claude Code, run `/logout`, then `/login` |
-| `API key is missing` | Save the settings again, then open a new terminal window |
+| `/status` shows no auth token | Check that `.claude/settings.local.json` is saved, the key is inside quotation marks, and you started `claude` in the project folder |
+| Subscription user sees an OpenRouter or API key error | Delete `.claude/settings.local.json` in the project folder, then restart `claude` |
 | Auth conflict or wrong `/status` | Run `/logout`, exit, restart `claude`, and check that the base URL has no `/v1` |
 | Extension not visible | Update Positron, then search again for **Claude Code** |
-| Key works in terminal, not in the extension | Use the global settings file fallback |
+| Key works in terminal, not in the extension | Fully quit and reopen Positron, with `claude-data-analysis` as the open folder |
 
 ## Quick reference
 

@@ -80,10 +80,25 @@ The benchmark supplied canonical problems, a reference answer, a fixed prompt, a
 
 Song and colleagues asked GPT-3.5, GPT-4, and Llama 3.1 to write SAS code for 207 human-verified statistical tasks.
 
+:::: {.columns}
+::: {.column width="56%"}
 - Models often produced syntactically correct and readable code.
 - Performance weakened on tasks requiring deeper domain understanding.
 - Executable-looking programs could still contain redundant analyses or incorrect results.
 - Non-expert users were least equipped to recognize those errors.
+:::
+::: {.column width="40%"}
+| Expert rubric | Score |
+|:--|--:|
+| Code quality | 94% |
+| Executes | 61% |
+| Correct output | 52% |
+
+```{=latex}
+{\scriptsize Mean share of rubric points, not pass rates.\par}
+```
+:::
+::::
 
 ```{=latex}
 \vspace{0.6em}
@@ -170,6 +185,13 @@ The problem was often selective exploration among defensible paths, not an obvio
 ```{=latex}
 \vspace{0.5em}
 {\large\bfseries Good instruction improves execution. It does not remove uncertainty about the statistical decisions.\par}
+```
+
+## So What?
+
+```{=latex}
+\vspace{2.5em}
+{\LARGE\bfseries Reliability depends on how much of the statistical ballgame has already been specified and how independently the resulting artifacts can be checked.\par}
 ```
 
 ## The practical capability boundary
